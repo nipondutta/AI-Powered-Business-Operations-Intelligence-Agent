@@ -60,6 +60,9 @@ def validate_readonly_sql(sql: str) -> str:
             f"Unauthorized tables referenced: {mentioned - ALLOWED_TABLES}"
         )
 
+    if not re.search(r"\bLIMIT\s+\d+(?:\s+OFFSET\s+\d+)?\s*$", cleaned, re.IGNORECASE):
+        cleaned += " LIMIT 200"
+
     return cleaned
 
 def execute_readonly(sql: str):
